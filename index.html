@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8">
+    <title>hello-wasm example</title>
+</head>
+
+<body>
+    <script type="module">
+        import init, { fib_num } from "./pkg/template.js";
+        init()
+            .then(() => {
+                console.log("run wasm")
+                const startTime = performance.now();
+                const fib = fib_num(40); // 計測する処理
+                const endTime = performance.now();
+                console.log("wasm score fibnum(40)", endTime - startTime);
+                console.log(fib)
+            });
+
+    </script>
+    <script>
+        var fibNumJs = function (n) {
+            if (n == 0 || n == 1) {
+                return n;
+            }
+            else {
+                return fibNumJs(n - 2) + fibNumJs(n - 1);
+            }
+        };
+        console.log("run js")
+        var startTime_ = performance.now(); // 開始時間
+        const fib_js = fibNumJs(40); // 計測する処理
+        var endTime_ = performance.now(); // 終了時間
+        console.log("js score fibnum(40)", endTime_ - startTime_); // 何ミリ秒かかったかを表示する
+        console.log(fib_js)
+    </script>
+</body>
+
+</html>
